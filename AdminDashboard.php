@@ -250,14 +250,14 @@ th {
             <div class="doctor">
                 <img src="sujan.jpg">
                 <h4>Dr Sujan</h4>
-                <p>Dentist</p>
+                <p>Dermatologist</p>
                 <div class="status">Available</div>
             </div>
 
             <div class="doctor">
                 <img src="anish.jpg">
                 <h4>Dr Anish</h4>
-                <p>Dermatologist</p>
+                <p>Dentist</p>
                 <div class="status">Available</div>
             </div>
         </div>
