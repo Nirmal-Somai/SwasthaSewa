@@ -1,31 +1,60 @@
 <?php
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+session_start();
+include("db.php");
+
+
+if (isset($_SESSION['success'])) {
+    echo "<div style='background:green;color:white;padding:10px;margin-bottom:10px;border-radius:5px;text-align:center;'>
+    " . $_SESSION['success'] . "</div>";
+
+    unset($_SESSION['success']);
+}
+
 $error_message = '';
-$success_message = '';
 $email = '';
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = htmlspecialchars(trim($_POST['email']));
+
+    $email = trim($_POST['email']);
     $password = trim($_POST['password']);
+
     if (empty($email) || empty($password)) {
-        $error_message = "Please fill in all required fields.";
-    } 
-    // Validation Password 
-    elseif (strlen($password) < 6) {
-        $error_message = "Password must be at least 6 characters long.";
-    } 
-    else {
-        // 3. Simple Authentication Check
-        // Added admin@example.com for dummy logic
-        $valid_email = "admin@example.com";
-        $valid_password = "password123";
-        // condication lako 
-        if (($email === $valid_email || $email === 'admin') && $password === $valid_password) {
-            $success_message = "Login successful! Welcome back.";
+        $error_message = "Fill all fields";
+    } else {
+
+        $stmt = $conn->prepare("SELECT id, password FROM users WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        if ($result->num_rows === 1) {
+            $user = $result->fetch_assoc();
+
+            if (password_verify($password, $user['password'])) {
+
+                $_SESSION['user_id'] = $user['id'];
+
+                header("Location: homepage.php");
+                exit();
+
+            } else {
+                $error_message = "Wrong password!";
+            }
+
         } else {
-            $error_message = "Invalid email or password.";
+            $error_message = "User not found!";
         }
+
+        $stmt->close();
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -80,7 +109,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <button type="submit" class="btn-login">Login</button>
                     
                     <div class="create-account">
-                        <a href="#">Create a new account</a>
+                        <a href="signup.php">Create a new account</a>
                     </div>
 
                     <div class="social-login">

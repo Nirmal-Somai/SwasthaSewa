@@ -2,12 +2,19 @@
 session_start();
 $error_message = '';
 $success_message = '';
+
+if (isset($_SESSION['success'])) {
+    $success_message = $_SESSION['success'];
+    unset($_SESSION['success']);
+}
 // Form data holding
 $first_name = '';
 $last_name = '';
 $gender = '';
 $phone = '';
 $email = '';
+$redirect_to_login = false;
+
 // Database configuration
 $db_host = 'localhost';
 $db_username = 'root'; 
@@ -21,6 +28,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $phone = htmlspecialchars(trim($_POST['phone']));
     $email = htmlspecialchars(trim($_POST['email']));
     $password = trim($_POST['password']);
+    if (isset($_SESSION['redirect_to_login']) && $_SESSION['redirect_to_login'] == true) {
+        $redirect_to_login = true;
+        unset($_SESSION['redirect_to_login']);
+    }
     
     // Anti-bot honeypot field check
     $honeypot = $_POST['website_url'] ?? '';
@@ -64,7 +75,8 @@ if ($insert_stmt) {
         $insert_stmt->close();
         $stmt->close();
         $conn->close();
-        header("Location: Homepage.php?registered=1");
+        $_SESSION['success'] = "Account created successfully!";
+        header("Location: signup.php");
         exit();
     } else {
         $error_message = "Could not create account at this time. Please try again.";
@@ -131,6 +143,22 @@ if ($insert_stmt) {
         }
     </style>
 </head>
+<?php if (isset($_SESSION['redirect'])): ?>
+<script>
+setTimeout(() => {
+    const msg = document.querySelector(".alert-success");
+    if (msg) {
+        msg.style.opacity = "0";
+
+        setTimeout(() => {
+            window.location.href = "login.php";
+        }, 500);
+    } else {
+        window.location.href = "login.php";
+    }
+}, 3000);
+</script>
+<?php unset($_SESSION['redirect']); endif; ?>
 <body>
     <div class="main-wrapper">
         <div class="login-card">
@@ -139,6 +167,11 @@ if ($insert_stmt) {
                <h1 style="text-align: center; color: #212121; margin-bottom: 0.5rem; font-size: 2rem;">SwasthaSewa</h1>
                 <p class="subtitle" style="text-align: center;">Create your personal account</p>
                 
+                <?php if (!empty($success_message)): ?>
+                    <div class="alert alert-success">
+                        <?php echo $success_message; ?>
+                    </div>
+                <?php endif; ?>
                 <?php if (!empty($error_message)): ?>
                     <div class="alert alert-error">
                         <?php echo $error_message; ?>
