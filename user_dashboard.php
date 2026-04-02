@@ -25,7 +25,8 @@
             <a href="login.php">Book Appointment</a>
             <a href="login.php">View Crowd Level</a>
         </nav>
-        <a href="login.php" class="btn-login">Sign In</a>
+        <a href="login.php" class="btn-login">User Sign Up</a>
+        <a href="HospitalAdminLogin.php" class="btn-login">Admin Sign Up</a>
     </header>
 
     <!-- Main Hero Section -->
