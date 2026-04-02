@@ -1,97 +1,97 @@
 <?php
 session_start();
+include("db.php");
+
 $error_message = '';
 $success_message = '';
 
-if (isset($_SESSION['success'])) {
-    $success_message = $_SESSION['success'];
-    unset($_SESSION['success']);
-}
-// Form data holding
 $first_name = '';
 $last_name = '';
 $gender = '';
 $phone = '';
 $email = '';
-$redirect_to_login = false;
 
-// Database configuration
-$db_host = 'localhost';
-$db_username = 'root'; 
-$db_password = '';     
-$db_name = 'hospital_db'; 
+if (isset($_SESSION['success'])) {
+    $success_message = $_SESSION['success'];
+    unset($_SESSION['success']);
+}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $first_name = htmlspecialchars(trim($_POST['first_name']));
-    $last_name = htmlspecialchars(trim($_POST['last_name']));
-    $gender = htmlspecialchars(trim($_POST['gender']));
-    $phone = htmlspecialchars(trim($_POST['phone']));
-    $email = htmlspecialchars(trim($_POST['email']));
-    $password = trim($_POST['password']);
-    if (isset($_SESSION['redirect_to_login']) && $_SESSION['redirect_to_login'] == true) {
-        $redirect_to_login = true;
-        unset($_SESSION['redirect_to_login']);
-    }
-    
-    // Anti-bot honeypot field check
-    $honeypot = $_POST['website_url'] ?? '';
 
+    $first_name = htmlspecialchars(trim($_POST['first_name']));
+    $last_name  = htmlspecialchars(trim($_POST['last_name']));
+    $gender     = htmlspecialchars(trim($_POST['gender']));
+    $phone      = htmlspecialchars(trim($_POST['phone']));
+    $email      = htmlspecialchars(trim($_POST['email']));
+    $password   = trim($_POST['password']);
+
+    // honeypot (bot protection)
+    $honeypot = $_POST['website_url'] ?? '';
     if (!empty($honeypot)) {
         die("Invalid request.");
     }
-    
+
+    // validation
     if (empty($first_name) || empty($last_name) || empty($gender) || empty($phone) || empty($email) || empty($password)) {
         $error_message = "Please fill in all required fields.";
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    }
+    elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error_message = "Please enter a valid email address.";
-    } elseif (strlen($password) < 6) {
+    }
+    elseif (strlen($password) < 6) {
         $error_message = "Password must be at least 6 characters long.";
-    } else {
-      $conn = @new mysqli($db_host, $db_username, $db_password, $db_name);
-if ($conn->connect_error) {
-    die("Database connection failed! Please check your credentials or database. Error: " . $conn->connect_error);
-}
-        if ($conn->connect_error) {
-            $error_message = "Database connection failed! Please check your credentials.";
-        } else {
-            $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
-            if ($stmt) {
-                $stmt->bind_param("s", $email);
-                $stmt->execute();
-                $stmt->store_result();
-                
-                if ($stmt->num_rows > 0) {
-                    $error_message = "An account with this email already exists.";
-                } else {
-                    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-                    
-                  // Prepare insert statement with all fields
-$insert_stmt = $conn->prepare("INSERT INTO users (first_name, last_name, gender, phone, email, password) VALUES (?, ?, ?, ?, ?, ?)");
-if ($insert_stmt) {
-    $insert_stmt->bind_param("ssssss", $first_name, $last_name, $gender, $phone, $email, $hashed_password);
+    }
+    else {
 
-    if ($insert_stmt->execute()) {
-        // Redirect immediately after successful insert
-        $insert_stmt->close();
+        // check if email exists
+        $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $stmt->store_result();
+
+        if ($stmt->num_rows > 0) {
+            $error_message = "An account with this email already exists.";
+        } else {
+
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+            // insert user
+            $insert_stmt = $conn->prepare(
+                "INSERT INTO users (first_name, last_name, gender, phone, email, password)
+                 VALUES (?, ?, ?, ?, ?, ?)"
+            );
+
+            if ($insert_stmt) {
+
+                $insert_stmt->bind_param(
+                    "ssssss",
+                    $first_name,
+                    $last_name,
+                    $gender,
+                    $phone,
+                    $email,
+                    $hashed_password
+                );
+
+                if ($insert_stmt->execute()) {
+                    $_SESSION['success'] = "Account created successfully!";
+                    header("Location: signup.php");
+                    exit();
+                } else {
+                    $error_message = "Could not create account. Try again.";
+                }
+
+                $insert_stmt->close();
+            } else {
+                $error_message = "Database error.";
+            }
+        }
+
         $stmt->close();
         $conn->close();
-        $_SESSION['success'] = "Account created successfully!";
-        header("Location: signup.php");
-        exit();
-    } else {
-        $error_message = "Could not create account at this time. Please try again.";
-    }
-    $insert_stmt->close();
-} else {
-    $error_message = "Database Error: Could not prepare insert statement.";
-}}}
-            // after create account go to home page 
-          
-
-            $conn->close();
-        }
     }
 }
+?>
 ?>
 <!DOCTYPE html>
 <html lang="en">

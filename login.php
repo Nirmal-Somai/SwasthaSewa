@@ -1,5 +1,4 @@
 <?php
-
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -7,15 +6,17 @@ session_start();
 include("db.php");
 
 
+
+$error_message = '';
+$email = '';
+
+/* success message from signup */
 if (isset($_SESSION['success'])) {
     echo "<div style='background:green;color:white;padding:10px;margin-bottom:10px;border-radius:5px;text-align:center;'>
     " . $_SESSION['success'] . "</div>";
 
     unset($_SESSION['success']);
 }
-
-$error_message = '';
-$email = '';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -32,14 +33,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $result = $stmt->get_result();
 
-        if ($result->num_rows === 1) {
+        if ($result && $result->num_rows === 1) {
+
             $user = $result->fetch_assoc();
 
             if (password_verify($password, $user['password'])) {
 
                 $_SESSION['user_id'] = $user['id'];
 
-                header("Location: homepage.php");
+                header("Location: user_dashboard.php");
                 exit();
 
             } else {

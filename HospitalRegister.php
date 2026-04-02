@@ -2,17 +2,6 @@
 session_start();
 include("db.php");
 
-
-// Create admins table
-$sql = "CREATE TABLE IF NOT EXISTS admins (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)";
-$conn->query($sql);
-
 $error = '';
 $success = '';
 
@@ -20,25 +9,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $name = trim($_POST['name']);
     $email = trim($_POST['email']);
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $password_raw = $_POST['password'];
 
-    if ($name && $email && $_POST['password']) {
+    if ($name && $email && $password_raw) {
 
-        $stmt = $conn->prepare("INSERT INTO admins (name,email,password) VALUES (?,?,?)");
+        $password = password_hash($password_raw, PASSWORD_DEFAULT);
+
+        $stmt = $conn->prepare("INSERT INTO admins (name, email, password) VALUES (?, ?, ?)");
         $stmt->bind_param("sss", $name, $email, $password);
 
         if ($stmt->execute()) {
-            $success = "Admin created successfully!";
+            $success = "Admin registered successfully!";
         } else {
-            $error = "Something went wrong!";
+            $error = "Email already exists or error occurred!";
         }
 
     } else {
-        $error = "All fields required!";
+        $error = "All fields are required!";
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
