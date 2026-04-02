@@ -11,7 +11,7 @@ $sql = "CREATE TABLE IF NOT EXISTS admins (
     password VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )";
-
+$conn->query($sql);
 
 $error = '';
 $success = '';
