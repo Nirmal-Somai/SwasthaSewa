@@ -1,0 +1,136 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: #1dd3b0;
+    background-image: 
+        radial-gradient(#ffffff 2px, transparent 2px),
+        linear-gradient(135deg, #2dd4bf 0%, #06b6d4 100%);
+    background-size: 30px 30px, 100% 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+/* SAME WRAPPER STYLE */
+.card {
+    background-color: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    width: 420px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+}
+
+/* TITLE */
+h2 {
+    text-align: center;
+    color: #212121;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    text-align: center;
+    color: #757575;
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+    font-weight: 500;
+}
+
+/* INPUT STYLE SAME AS LOGIN */
+input {
+    width: 100%;
+    border: none;
+    outline: none;
+    background-color: #f0f5ff;
+    padding: 1.1rem;
+    border-radius: 8px;
+    margin-bottom: 1.2rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #333;
+    border: 1px solid transparent;
+    transition: 0.2s;
+}
+
+input:focus {
+    border-color: #4edeea;
+    box-shadow: 0 0 0 3px rgba(78, 222, 234, 0.15);
+}
+
+/* BUTTON SAME STYLE */
+button {
+    background-color: #24d2d4;
+    color: white;
+    width: 100%;
+    padding: 1.1rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(36, 210, 212, 0.35);
+    transition: 0.2s;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #1cb5b7;
+    transform: translateY(-2px);
+}
+
+/* LINK */
+a {
+    text-align: center;
+    display: block;
+    margin-top: 1.5rem;
+    color: #24d2d4;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* MESSAGE BOX */
+.msg {
+    text-align: center;
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    padding: 0.85rem;
+    border-radius: 8px;
+}
+
+.error {
+    background-color: #fee2e2;
+    color: #b91c1c;
+    border: 1px solid #f87171;
+}
+
+.success {
+    background-color: #d1fae5;
+    color: #047857;
+    border: 1px solid #34d399;
+}
+
+/* RESPONSIVE */
+@media (max-width: 500px) {
+    .card {
+        width: 100%;
+    }
+}
+
+
