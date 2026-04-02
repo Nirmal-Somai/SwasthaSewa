@@ -243,7 +243,7 @@ th {
             <div class="doctor">
                 <img src="nirmal.jpg">
                 <h4>Dr Nirmal</h4>
-                <p>Cardiologist</p>
+                <p>ENT</p>
                 <div class="status">Available</div>
             </div>
 
@@ -257,7 +257,7 @@ th {
             <div class="doctor">
                 <img src="anish.jpg">
                 <h4>Dr Anish</h4>
-                <p>Dermatology</p>
+                <p>Dermatologist</p>
                 <div class="status">Available</div>
             </div>
         </div>
