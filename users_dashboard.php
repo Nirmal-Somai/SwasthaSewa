@@ -1,3 +1,32 @@
+<?php
+session_start();
+include("db.php");
+
+// Default Fallback
+$user_name = "My Profile";
+$user_initials_query = "User";
+
+// Fetch the user's name if they are logged in
+if (isset($_SESSION['user_id'])) {
+    $user_id = $_SESSION['user_id'];
+    $stmt = $conn->prepare("SELECT first_name, last_name FROM users WHERE id = ?");
+    if ($stmt) {
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows === 1) {
+            $user = $result->fetch_assoc();
+            $user_name = htmlspecialchars($user['first_name'] . ' ' . $user['last_name']);
+            $user_initials_query = urlencode($user['first_name'] . ' ' . $user['last_name']);
+        }
+        $stmt->close();
+    }
+} else {
+    // If somehow accessed without login, send to login
+    header("Location: login.php");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,12 +49,20 @@
             SwasthaSewa
         </a>
         <nav class="nav-links">
-            <a href="login.php">Hospitals</a>
-            <a href="login.php">Clinics</a>
-            <a href="login.php">Book Appointment</a>
-            <a href="login.php">View Crowd Level</a>
+            <a href="#">Hospitals</a>
+            <a href="#">Clinics</a>
+            <a href="#">Book Appointment</a>
+            <a href="#"> View Crowd Level</a>
         </nav>
-        <a href="login.php" class="btn-login">Sign In</a>
+
+                       
+        <!-- Replaced Login Button with User Profile Button -->
+        <a href="user_profile.php" class="user-profile-btn"
+            style="display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: var(--text-primary);">
+            <span style="font-weight: 600; font-size: 0.95rem;"><?php echo $user_name; ?></span>
+            <img src="https://ui-avatars.com/api/?name=<?php echo $user_initials_query; ?>&background=4F46E5&color=fff" alt="User Photo"
+                style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-color);">
+        </a>
     </header>
 
     <!-- Main Hero Section -->
@@ -49,29 +86,21 @@
                     <i class="fa-solid fa-location-dot"></i>
                     <input type="text" value="All Nepal">
                 </div>
-                <button class="btn-search" onclick="window.location.href='login.php'">Search</button>
+                <button class="btn-search">Search</button>
             </div>
 
             <div class="tags-wrapper">
-                <button class="tag active" onclick="window.location.href='login.php'">All</button>
-                <button class="tag" onclick="window.location.href='login.php'"><i class="fa-solid fa-heart-pulse"></i>
-                    Select Doctor</button>
-                <button class="tag" onclick="window.location.href='login.php'"><i class="fa-regular fa-clock"></i>
-                    ENT</button>
-                <button class="tag" onclick="window.location.href='login.php'"><i class="fa-solid fa-heart-pulse"></i>
-                    Cardiology</button>
-                <button class="tag" onclick="window.location.href='login.php'"><i class="fa-solid fa-baby"></i>
-                    Pediatrics</button>
-                <button class="tag" onclick="window.location.href='login.php'"><i class="fa-solid fa-brain"></i>
-                    Dental</button>
-                <button class="tag" onclick="window.location.href='login.php'"><i class="fa-solid fa-brain"></i>
-                    Skin</button>
-                <button class="tag" onclick="window.location.href='login.php'"><i class="fa-solid fa-brain"></i>
-                    Eye</button>
-                <button class="tag" onclick="window.location.href='login.php'"><i class="fa-solid fa-brain"></i>
-                    Child</button>
-            </div>
+                <button class="tag active">All</button>
+                <button class="tag"><i class="fa-solid fa-heart-pulse"></i> Select Doctor</button>
+                <button class="tag"><i class="fa-regular fa-clock"></i> ENT</button>
+                <button class="tag"><i class="fa-solid fa-heart-pulse"></i> Cardiology</button>
+                <button class="tag"><i class="fa-solid fa-baby"></i> Pediatrics</button>
+                <button class="tag"><i class="fa-solid fa-brain"></i> Dental</button>
+                <button class="tag"><i class="fa-solid fa-brain"></i> Skin</button>
+                <button class="tag"><i class="fa-solid fa-brain"></i>Eye</button>
 
+                <button class="tag"><i class="fa-solid fa-brain"></i>Child</button>
+            </div>
         </section>
 
         <!-- Top Results Content -->
@@ -130,8 +159,6 @@
                 </div>
             </div>
         </section>
-
-
 
     </main>
 

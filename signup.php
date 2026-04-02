@@ -74,8 +74,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 );
 
                 if ($insert_stmt->execute()) {
+                    $_SESSION['user_id'] = $insert_stmt->insert_id;
                     $_SESSION['success'] = "Account created successfully!";
-                    header("Location: signup.php");
+                    header("Location: user_profile.php");
                     exit();
                 } else {
                     $error_message = "Could not create account. Try again.";
