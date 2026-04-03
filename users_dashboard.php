@@ -51,7 +51,7 @@ if (isset($_SESSION['user_id'])) {
         <nav class="nav-links">
             <a href="#">Hospitals</a>
             <a href="#">Clinics</a>
-            <a href="#">Book Appointment</a>
+            <a href="Book_Appointment.php">Book Appointment</a>
             <a href="#"> View Crowd Level</a>
         </nav>
 
@@ -94,7 +94,7 @@ if (isset($_SESSION['user_id'])) {
 
             <div class="tags-wrapper">
                 <button class="tag active">All</button>
-                <button class="tag"><i class="fa-solid fa-heart-pulse"></i> Select Doctor</button>
+                <button class="tag" onclick="window.location.href='Book_Appointment.php'"><i class="fa-solid fa-heart-pulse"></i> Select Doctor</button>
                 <button class="tag"><i class="fa-regular fa-clock"></i> ENT</button>
                 <button class="tag"><i class="fa-solid fa-heart-pulse"></i> Cardiology</button>
                 <button class="tag"><i class="fa-solid fa-baby"></i> Pediatrics</button>
@@ -125,7 +125,6 @@ if (isset($_SESSION['user_id'])) {
                         <div class="hospital-img">
                             <img src="1.png" alt="Hospital Building"
                                 style="width:100%; height:100%; object-fit:cover; opacity: 0.9;">
-                            <span class="status-badge status-open">Open Now</span>
                         </div>
                         <div style="padding: 1.5rem;">
                             <h3 style="font-size:1.1rem; margin-bottom:0.5rem; color:white;">Goldhhunga Hospital</h3>
@@ -143,7 +142,6 @@ if (isset($_SESSION['user_id'])) {
                         <div class="hospital-img">
                             <img src="2.png" alt="Clinic Interior"
                                 style="width:100%; height:100%; object-fit:cover; opacity: 0.9;">
-                            <span class="status-badge status-open">Open Now</span>
                         </div>
                         <div style="padding: 1.5rem;">
                             <h3 style="font-size:1.1rem; margin-bottom:0.5rem; color:white;">Lolang Medical Clinic</h3>
@@ -160,7 +158,6 @@ if (isset($_SESSION['user_id'])) {
                         <div class="hospital-img">
                             <img src="3.png" alt="Medical Center"
                                 style="width:100%; height:100%; object-fit:cover; opacity: 0.5;">
-                            <span class="status-badge status-closed">Closed</span>
                         </div>
                         <div style="padding: 1.5rem;">
                             <h3 style="font-size:1.1rem; margin-bottom:0.5rem; color:white;">Dhading Urgent Care</h3>
@@ -177,7 +174,6 @@ if (isset($_SESSION['user_id'])) {
                         <div class="hospital-img">
                             <img src="4.png" alt="Clinic Interior"
                                 style="width:100%; height:100%; object-fit:cover; opacity: 0.9;">
-                            <span class="status-badge status-open">Open Now</span>
                         </div>
                         <div style="padding: 1.5rem;">
                             <h3 style="font-size:1.1rem; margin-bottom:0.5rem; color:white;">Gorkha Medical Clinic</h3>
@@ -193,7 +189,6 @@ if (isset($_SESSION['user_id'])) {
                         <div class="hospital-img">
                             <img src="5.png" alt="Medical Center"
                                 style="width:100%; height:100%; object-fit:cover; opacity: 0.5;">
-                            <span class="status-badge status-closed">Closed</span>
                         </div>
                         <div style="padding: 1.5rem;">
                             <h3 style="font-size:1.1rem; margin-bottom:0.5rem; color:white;">Bus Park Clinic</h3>
@@ -210,7 +205,6 @@ if (isset($_SESSION['user_id'])) {
                         <div class="hospital-img">
                             <img src="6.png" alt="Hospital Building"
                                 style="width:100%; height:100%; object-fit:cover; opacity: 0.9;">
-                            <span class="status-badge status-open">Open Now</span>
                         </div>
                         <div style="padding: 1.5rem;">
                             <h3 style="font-size:1.1rem; margin-bottom:0.5rem; color:white;">

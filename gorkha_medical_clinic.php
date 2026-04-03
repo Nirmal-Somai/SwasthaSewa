@@ -189,7 +189,9 @@ $services = ["Specialized Surgery", "Maternity Ward", "Physiotherapy"];
                 </div>
 
                 <!-- Button -->
-                <button class="btn-search">Book Appointment</button>
+                <a href="Book_Appointment.php">
+                    <button class="btn-search">Book Appointment</button>
+                </a>
 
             </div>
         </div>

@@ -187,7 +187,9 @@ $hospital_loc = "145 Goldhhunga, Nepal";
                 </div>
 
                 <!-- Button -->
-                <button class="btn-search">Book Appointment</button>
+                <a href="Book_Appointment.php">
+                    <button class="btn-search">Book Appointment</button>
+                </a>
 
             </div>
         </div>
