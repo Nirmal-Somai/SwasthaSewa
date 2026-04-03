@@ -55,12 +55,15 @@ if (isset($_SESSION['user_id'])) {
             <a href="#"> View Crowd Level</a>
         </nav>
 
-                       
+
         <!-- Replaced Login Button with User Profile Button -->
         <a href="user_profile.php" class="user-profile-btn"
             style="display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: var(--text-primary);">
-            <span style="font-weight: 600; font-size: 0.95rem;"><?php echo $user_name; ?></span>
-            <img src="https://ui-avatars.com/api/?name=<?php echo $user_initials_query; ?>&background=4F46E5&color=fff" alt="User Photo"
+            <span style="font-weight: 600; font-size: 0.95rem;">
+                <?php echo $user_name; ?>
+            </span>
+            <img src="https://ui-avatars.com/api/?name=<?php echo $user_initials_query; ?>&background=4F46E5&color=fff"
+                alt="User Photo"
                 style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-color);">
         </a>
     </header>
@@ -117,51 +120,146 @@ if (isset($_SESSION['user_id'])) {
 
             <div class="results-grid">
                 <!-- Card 1 -->
-                <div class="hospital-card">
-                    <div class="hospital-img">
-                        <img src="1.png" alt="Hospital Building"
-                            style="width:100%; height:100%; object-fit:cover; opacity: 0.9;">
-                        <span class="status-badge status-open">Open Now</span>
+                <a href="goldhhunga_hospital.php" style="text-decoration:none;">
+                    <div class="hospital-card">
+                        <div class="hospital-img">
+                            <img src="1.png" alt="Hospital Building"
+                                style="width:100%; height:100%; object-fit:cover; opacity: 0.9;">
+                            <span class="status-badge status-open">Open Now</span>
+                        </div>
+                        <div style="padding: 1.5rem;">
+                            <h3 style="font-size:1.1rem; margin-bottom:0.5rem; color:white;">Goldhhunga Hospital</h3>
+                            <p style="color:#9CA3AF; font-size:0.9rem;">
+                                <i class="fa-solid fa-location-dot" style="margin-right:0.4rem;"></i>145 Goldhhunga,
+                                Nepal
+                            </p>
+                        </div>
                     </div>
-                    <div style="padding: 1.5rem;">
-                        <h3 style="font-size:1.1rem; margin-bottom:0.5rem; color:white;">Goldhhunga Hospital</h3>
-                        <p style="color:#9CA3AF; font-size:0.9rem;"><i class="fa-solid fa-location-dot"
-                                style="margin-right:0.4rem;"></i>145 Goldhhunga, Nepal</p>
-                    </div>
-                </div>
+                </a>
 
                 <!-- Card 2 -->
-                <div class="hospital-card">
-                    <div class="hospital-img">
-                        <img src="2.png" alt="Clinic Interior"
-                            style="width:100%; height:100%; object-fit:cover; opacity: 0.9;">
-                        <span class="status-badge status-open">Open Now</span>
+                <a href="lolang_medical_clinic.php" style="text-decoration:none;">
+                    <div class="hospital-card">
+                        <div class="hospital-img">
+                            <img src="2.png" alt="Clinic Interior"
+                                style="width:100%; height:100%; object-fit:cover; opacity: 0.9;">
+                            <span class="status-badge status-open">Open Now</span>
+                        </div>
+                        <div style="padding: 1.5rem;">
+                            <h3 style="font-size:1.1rem; margin-bottom:0.5rem; color:white;">Lolang Medical Clinic</h3>
+                            <p style="color:#9CA3AF; font-size:0.9rem;">
+                                <i class="fa-solid fa-location-dot" style="margin-right:0.4rem;"></i> 49 Lolang, Nepal
+                            </p>
+                        </div>
                     </div>
-                    <div style="padding: 1.5rem;">
-                        <h3 style="font-size:1.1rem; margin-bottom:0.5rem; color:white;">Lolang Medical Clinic</h3>
-                        <p style="color:#9CA3AF; font-size:0.9rem;"><i class="fa-solid fa-location-dot"
-                                style="margin-right:0.4rem;"></i> 49 Lolang, Nepal</p>
-                    </div>
-                </div>
+                </a>
 
                 <!-- Card 3 -->
-                <div class="hospital-card">
-                    <div class="hospital-img">
-                        <img src="3.png" alt="Medical Center"
-                            style="width:100%; height:100%; object-fit:cover; opacity: 0.5;">
-                        <span class="status-badge status-closed">Closed</span>
+                <a href="dhading_urgent_care.php" style="text-decoration:none;">
+                    <div class="hospital-card">
+                        <div class="hospital-img">
+                            <img src="3.png" alt="Medical Center"
+                                style="width:100%; height:100%; object-fit:cover; opacity: 0.5;">
+                            <span class="status-badge status-closed">Closed</span>
+                        </div>
+                        <div style="padding: 1.5rem;">
+                            <h3 style="font-size:1.1rem; margin-bottom:0.5rem; color:white;">Dhading Urgent Care</h3>
+                            <p style="color:#9CA3AF; font-size:0.9rem;">
+                                <i class="fa-solid fa-location-dot" style="margin-right:0.4rem;"></i> 780 Dhading, Nepal
+                            </p>
+                        </div>
                     </div>
-                    <div style="padding: 1.5rem;">
-                        <h3 style="font-size:1.1rem; margin-bottom:0.5rem; color:white;">Dhading Urgent Care</h3>
-                        <p style="color:#9CA3AF; font-size:0.9rem;"><i class="fa-solid fa-location-dot"
-                                style="margin-right:0.4rem;"></i> 780 Dhading, Nepal</p>
+                </a>
+
+                <!-- Card 4 -->
+                <a href="gorkha_medical_clinic.php" style="text-decoration:none;">
+                    <div class="hospital-card">
+                        <div class="hospital-img">
+                            <img src="4.png" alt="Clinic Interior"
+                                style="width:100%; height:100%; object-fit:cover; opacity: 0.9;">
+                            <span class="status-badge status-open">Open Now</span>
+                        </div>
+                        <div style="padding: 1.5rem;">
+                            <h3 style="font-size:1.1rem; margin-bottom:0.5rem; color:white;">Gorkha Medical Clinic</h3>
+                            <p style="color:#9CA3AF; font-size:0.9rem;">
+                                <i class="fa-solid fa-location-dot" style="margin-right:0.4rem;"></i> 40 Gorkha, Nepal
+                            </p>
+                        </div>
                     </div>
-                </div>
+                </a>
+                <!-- Card 5 -->
+                <a href="bus_park_clinic.php" style="text-decoration: none;">
+                    <div class="hospital-card">
+                        <div class="hospital-img">
+                            <img src="5.png" alt="Medical Center"
+                                style="width:100%; height:100%; object-fit:cover; opacity: 0.5;">
+                            <span class="status-badge status-closed">Closed</span>
+                        </div>
+                        <div style="padding: 1.5rem;">
+                            <h3 style="font-size:1.1rem; margin-bottom:0.5rem; color:white;">Bus Park Clinic</h3>
+                            <p style="color:#9CA3AF; font-size:0.9rem;">
+                                <i class="fa-solid fa-location-dot" style="margin-right:0.4rem;"></i> 46 Bus Park, Nepal
+                            </p>
+                        </div>
+                    </div>
+                </a>
+                <!-- Card 6 -->
+
+                <a href="machapokhari_medical_clinic.php" style="text-decoration: none;">
+                    <div class="hospital-card">
+                        <div class="hospital-img">
+                            <img src="6.png" alt="Hospital Building"
+                                style="width:100%; height:100%; object-fit:cover; opacity: 0.9;">
+                            <span class="status-badge status-open">Open Now</span>
+                        </div>
+                        <div style="padding: 1.5rem;">
+                            <h3 style="font-size:1.1rem; margin-bottom:0.5rem; color:white;">
+                                Machapokhari Medical Clinic
+                            </h3>
+                            <p style="color:#9CA3AF; font-size:0.9rem;">
+                                <i class="fa-solid fa-location-dot" style="margin-right:0.4rem;"></i> 4 Machapokhari,
+                                Nepal
+                            </p>
+                        </div>
+                    </div>
+                </a>
+
+
             </div>
         </section>
 
     </main>
 
+    <script>
+        document.querySelector('.btn-search').addEventListener('click', function () {
+            const query = document.querySelector('.search-field input[type="text"]').value.toLowerCase().trim();
+
+            if (query.includes('gorkha')) {
+                window.location.href = 'gorkha_medical_clinic.php';
+            } else if (query.includes('goldhhunga')) {
+                window.location.href = 'goldhhunga_hospital.php';
+            } else if (query.includes('lolang')) {
+                window.location.href = 'lolang_medical_clinic.php';
+            } else if (query.includes('dhading')) {
+                window.location.href = 'dhading_urgent_care.php';
+            } else if (query.includes('machapokhari')) {
+                window.location.href = 'machapokhari_medical_clinic.php';
+            } else if (query.includes('bus park') || query.includes('buspark')) {
+                window.location.href = 'bus_park_clinic.php';
+            } else if (query === "") {
+                alert("Please enter a hospital name to search.");
+            } else {
+                alert('No hospital found. Try searching for Gorkha, Lolang, Dhading, etc.');
+            }
+        });
+
+        // Also handle "Enter" key press
+        document.querySelector('.search-field input[type="text"]').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                document.querySelector('.btn-search').click();
+            }
+        });
+    </script>
 </body>
 
 </html>

@@ -25,8 +25,10 @@
             <a href="login.php">Book Appointment</a>
             <a href="login.php">View Crowd Level</a>
         </nav>
-        <a href="login.php" class="btn-login">User Sign Up</a>
-        <a href="HospitalAdminLogin.php" class="btn-login">Admin Sign Up</a>
+        <div class="auth-buttons">
+            <a href="login.php" class="btn-login">User Sign Up</a>
+            <a href="HospitalAdminLogin.php" class="btn-login">Admin Sign Up</a>
+        </div>
     </header>
 
     <!-- Main Hero Section -->
@@ -89,46 +91,106 @@
 
             <div class="results-grid">
                 <!-- Card 1 -->
-                <div class="hospital-card">
-                    <div class="hospital-img">
-                        <img src="1.png" alt="Hospital Building"
-                            style="width:100%; height:100%; object-fit:cover; opacity: 0.9;">
-                        <span class="status-badge status-open">Open Now</span>
+                <a href="login.php" style="text-decoration: none;">
+                    <div class="hospital-card">
+                        <div class="hospital-img">
+                            <img src="1.png" alt="Hospital Building"
+                                style="width:100%; height:100%; object-fit:cover; opacity: 0.9;">
+                            <span class="status-badge status-open">Open Now</span>
+                        </div>
+                        <div style="padding: 1.5rem;">
+                            <h3 style="font-size:1.1rem; margin-bottom:0.5rem; color:white;">Goldhhunga Hospital</h3>
+                            <p style="color:#9CA3AF; font-size:0.9rem;"><i class="fa-solid fa-location-dot"
+                                    style="margin-right:0.4rem;"></i>145 Goldhhunga, Nepal</p>
+                        </div>
                     </div>
-                    <div style="padding: 1.5rem;">
-                        <h3 style="font-size:1.1rem; margin-bottom:0.5rem; color:white;">Goldhhunga Hospital</h3>
-                        <p style="color:#9CA3AF; font-size:0.9rem;"><i class="fa-solid fa-location-dot"
-                                style="margin-right:0.4rem;"></i>145 Goldhhunga, Nepal</p>
-                    </div>
-                </div>
+                </a>
 
                 <!-- Card 2 -->
-                <div class="hospital-card">
-                    <div class="hospital-img">
-                        <img src="2.png" alt="Clinic Interior"
-                            style="width:100%; height:100%; object-fit:cover; opacity: 0.9;">
-                        <span class="status-badge status-open">Open Now</span>
+                <a href="login.php" style="text-decoration: none;">
+                    <div class="hospital-card">
+                        <div class="hospital-img">
+                            <img src="2.png" alt="Clinic Interior"
+                                style="width:100%; height:100%; object-fit:cover; opacity: 0.9;">
+                            <span class="status-badge status-open">Open Now</span>
+                        </div>
+                        <div style="padding: 1.5rem;">
+                            <h3 style="font-size:1.1rem; margin-bottom:0.5rem; color:white;">Lolang Medical Clinic</h3>
+                            <p style="color:#9CA3AF; font-size:0.9rem;"><i class="fa-solid fa-location-dot"
+                                    style="margin-right:0.4rem;"></i> 49 Lolang, Nepal</p>
+                        </div>
                     </div>
-                    <div style="padding: 1.5rem;">
-                        <h3 style="font-size:1.1rem; margin-bottom:0.5rem; color:white;">Lolang Medical Clinic</h3>
-                        <p style="color:#9CA3AF; font-size:0.9rem;"><i class="fa-solid fa-location-dot"
-                                style="margin-right:0.4rem;"></i> 49 Lolang, Nepal</p>
-                    </div>
-                </div>
+                </a>
 
                 <!-- Card 3 -->
-                <div class="hospital-card">
-                    <div class="hospital-img">
-                        <img src="3.png" alt="Medical Center"
-                            style="width:100%; height:100%; object-fit:cover; opacity: 0.5;">
-                        <span class="status-badge status-closed">Closed</span>
+                <a href="login.php" style="text-decoration: none;">
+                    <div class="hospital-card">
+                        <div class="hospital-img">
+                            <img src="3.png" alt="Medical Center"
+                                style="width:100%; height:100%; object-fit:cover; opacity: 0.5;">
+                            <span class="status-badge status-closed">Closed</span>
+                        </div>
+                        <div style="padding: 1.5rem;">
+                            <h3 style="font-size:1.1rem; margin-bottom:0.5rem; color:white;">Dhading Urgent Care</h3>
+                            <p style="color:#9CA3AF; font-size:0.9rem;"><i class="fa-solid fa-location-dot"
+                                    style="margin-right:0.4rem;"></i> 780 Dhading, Nepal</p>
+                        </div>
                     </div>
-                    <div style="padding: 1.5rem;">
-                        <h3 style="font-size:1.1rem; margin-bottom:0.5rem; color:white;">Dhading Urgent Care</h3>
-                        <p style="color:#9CA3AF; font-size:0.9rem;"><i class="fa-solid fa-location-dot"
-                                style="margin-right:0.4rem;"></i> 780 Dhading, Nepal</p>
+                </a>
+
+                <!-- Card 4 -->
+                <a href="login.php" style="text-decoration: none;">
+                    <div class="hospital-card">
+                        <div class="hospital-img">
+                            <img src="4.png" alt="Clinic Interior"
+                                style="width:100%; height:100%; object-fit:cover; opacity: 0.9;">
+                            <span class="status-badge status-open">Open Now</span>
+                        </div>
+                        <div style="padding: 1.5rem;">
+                            <h3 style="font-size:1.1rem; margin-bottom:0.5rem; color:white;">Gorkha Medical Clinic</h3>
+                            <p style="color:#9CA3AF; font-size:0.9rem;">
+                                <i class="fa-solid fa-location-dot" style="margin-right:0.4rem;"></i> 40 Gorkha, Nepal
+                            </p>
+                        </div>
                     </div>
-                </div>
+                </a>
+
+                <!-- Card 5 -->
+                <a href="login.php" style="text-decoration: none;">
+                    <div class="hospital-card">
+                        <div class="hospital-img">
+                            <img src="5.png" alt="Medical Center"
+                                style="width:100%; height:100%; object-fit:cover; opacity: 0.5;">
+                            <span class="status-badge status-closed">Closed</span>
+                        </div>
+                        <div style="padding: 1.5rem;">
+                            <h3 style="font-size:1.1rem; margin-bottom:0.5rem; color:white;">Bus Park Clinic</h3>
+                            <p style="color:#9CA3AF; font-size:0.9rem;">
+                                <i class="fa-solid fa-location-dot" style="margin-right:0.4rem;"></i> 46 Bus Park, Nepal
+                            </p>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Card 6 -->
+                <a href="login.php" style="text-decoration: none;">
+                    <div class="hospital-card">
+                        <div class="hospital-img">
+                            <img src="6.png" alt="Hospital Building"
+                                style="width:100%; height:100%; object-fit:cover; opacity: 0.9;">
+                            <span class="status-badge status-open">Open Now</span>
+                        </div>
+                        <div style="padding: 1.5rem;">
+                            <h3 style="font-size:1.1rem; margin-bottom:0.5rem; color:white;">
+                                Machapokhari Medical Clinic
+                            </h3>
+                            <p style="color:#9CA3AF; font-size:0.9rem;">
+                                <i class="fa-solid fa-location-dot" style="margin-right:0.4rem;"></i> 4 Machapokhari,
+                                Nepal
+                            </p>
+                        </div>
+                    </div>
+                </a>
             </div>
         </section>
 

@@ -92,6 +92,12 @@ body {
     box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
 }
 
+.auth-buttons {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
 /* Hero Section */
 .hero {
     text-align: center;
@@ -294,16 +300,18 @@ body {
 
 .results-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem;
+    margin-top: 3rem;
 }
 
 .hospital-card {
     background-color: var(--bg-card);
     border: 1px solid var(--border-color);
-    border-radius: 16px;
+    border-radius: 12px;
     overflow: hidden;
     transition: var(--transition);
+    width: 100%;
 }
 
 .hospital-card:hover {
@@ -314,9 +322,40 @@ body {
 
 .hospital-img {
     width: 100%;
-    height: 180px;
-    background-color: #2A2A35;
+    height: 200px;
+    background-color: #1a1a24;
     position: relative;
+    overflow: hidden;
+}
+
+.hospital-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: 1;
+    background-color: #1a1a24;
+}
+
+.card-content {
+    padding: 1.5rem;
+    background-color: var(--bg-card);
+}
+
+.card-content h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+    color: #FFFFFF;
+    font-family: var(--font-heading);
+}
+
+.card-content p {
+    color: #9CA3AF;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .status-badge {
