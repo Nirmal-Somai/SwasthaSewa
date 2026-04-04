@@ -303,6 +303,7 @@ if (!$user) {
                 </div>
 
                 <button type="submit" class="btn-update">Update Profile</button>
+                <a href="logout.php" class="btn-update" style="background-color: #EF4444; margin-top: 1rem; text-decoration: none; display: inline-block;">Logout</a>
             </form>
 
             <a href="users_dashboard.php" class="btn-back"><i class="fa-solid fa-arrow-left"></i> Back to Dashboard</a>
