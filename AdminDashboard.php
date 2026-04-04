@@ -67,15 +67,21 @@ button:hover {
 }
 /* LAYOUT */
 .container {
-    display: flex;
+    display: block;
 }
 
 /* SIDEBAR */
 .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
     width: 230px;
-    background: #ffffff;
-    min-height: 100vh;
+    background: #0f172a;
+    z-index: 1000;
     padding: 20px;
+    overflow-y: auto;
+   
 }
 
 .sidebar h2 {
@@ -87,23 +93,33 @@ button:hover {
     padding: 10px;
     margin: 8px 0;
     text-decoration: none;
-    color: #333;
+    color: white;
     border-radius: 8px;
+    transition: 0.2s;
 }
 
 .sidebar a:hover {
-    background: #e0f7f6;
-    color: #06b6d4;
+    background: #06b6d4;
+    color: black;
 }
 
 /* MAIN */
 .main {
-    flex: 1;
-    padding: 30px;
+    margin-left: 260px;
+    padding: 40px;
+    width: calc(100% - 260px);
+    box-sizing: border-box;
+}
+html {
+    scroll-behavior: smooth;
 }
 
 /* HEADER */
 .header {
+    width: 100%;
+    box-sizing: border-box;
+}
+.header h1 {
     color: white;
     margin-bottom: 20px;
 }
@@ -111,8 +127,12 @@ button:hover {
 /* CARDS */
 .cards {
     display: flex;
+    flex-wrap: wrap;
     gap: 20px;
-    margin-bottom: 30px;
+    margin: 20px 0;
+}
+.cards, .table-box {
+    max-width: 1200px;
 }
 
 .card {
@@ -137,7 +157,15 @@ button:hover {
     background: white;
     padding: 20px;
     border-radius: 12px;
-    margin-bottom: 20px;
+    margin: 20px 0;   /* 👈 IMPORTANT: only vertical spacing */
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+.table-box {
+    scroll-margin-top: 20px;  /* prevents weird jump into sidebar area */
 }
 
 table {
@@ -158,6 +186,7 @@ th {
 /* DOCTOR CARDS */
 .doctors {
     display: flex;
+    flex-wrap: wrap;
     gap: 20px;
 }
 
@@ -175,6 +204,10 @@ th {
     font-size: 14px;
     color: green;
 }
+body {
+    margin: 0;
+    overflow-x: hidden;
+}
 </style>
 </head>
 
@@ -184,7 +217,7 @@ th {
 
 <!-- SIDEBAR -->
 <div class="sidebar">
-    <h2>🏥 Admin</h2>
+    <h2>🏥 <?php echo $_SESSION['admin_name']; ?></h2>
     <a href="#">Dashboard</a>
     <a href="#users">Users</a>
     <a href="#doctors">Doctors</a>
@@ -264,10 +297,54 @@ th {
     </div>
 
     <!-- APPOINTMENTS -->
-    <div class="table-box" id="appointments">
-        <h3>Appointments</h3>
+   <!-- APPOINTMENTS -->
+<div class="table-box" id="appointments">
+    <h3>Appointments</h3>
+
+    <?php
+    $appointments_data = [];
+
+    $sql = "SELECT a.*, u.first_name, u.last_name, u.email
+            FROM appointments a
+            JOIN users u ON a.user_id = u.id
+            ORDER BY a.created_at DESC";
+
+    $result = $conn->query($sql);
+
+    if ($result && $result->num_rows > 0):
+    ?>
+
+    <table>
+        <tr>
+            <th>Patient</th>
+            <th>Doctor</th>
+            <th>Specialty</th>
+            <th>Problem</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Type</th>
+            <th>Status</th>
+        </tr>
+
+        <?php while ($a = $result->fetch_assoc()): ?>
+        <tr>
+            <td><?php echo $a['first_name'] . " " . $a['last_name']; ?></td>
+            <td><?php echo $a['doctor_name']; ?></td>
+            <td><?php echo $a['doctor_specialty']; ?></td>
+            <td><?php echo $a['problem_type']; ?></td>
+            <td><?php echo $a['appointment_date']; ?></td>
+            <td><?php echo $a['appointment_time']; ?></td>
+            <td><?php echo $a['appointment_type']; ?></td>
+            <td><?php echo $a['status']; ?></td>
+        </tr>
+        <?php endwhile; ?>
+
+    </table>
+
+    <?php else: ?>
         <p>No appointments yet</p>
-    </div>
+    <?php endif; ?>
+</div>
 
 </div>
 
