@@ -52,7 +52,7 @@ if (isset($_SESSION['user_id'])) {
             <a href="#">Hospitals</a>
             <a href="#">Clinics</a>
             <a href="Book_Appointment.php">Book Appointment</a>
-            <a href="#"> View Crowd Level</a>
+            <a href="ViewCrowd.php"> View Crowd Level</a>
         </nav>
 
 

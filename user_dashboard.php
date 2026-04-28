@@ -22,8 +22,8 @@
         <nav class="nav-links">
             <a href="login.php">Hospitals</a>
             <a href="login.php">Clinics</a>
-            <a href="Book_Appointment.php">Book Appointment</a>
-            <a href="ViewCrowd.php">View Crowd Level</a>
+            <a href="login.php">Book Appointment</a>
+            <a href="login.php">View Crowd Level</a>
         </nav>
         <div class="auth-buttons">
             <a href="login.php" class="btn-login">User Sign Up</a>
