@@ -33,6 +33,10 @@ $conn->query("CREATE TABLE IF NOT EXISTS appointments (
 
     doctor_name VARCHAR(100) NOT NULL,
     doctor_specialty VARCHAR(100) NOT NULL,
+
+    department VARCHAR(100) NOT NULL,
+    clinic_name VARCHAR(150) DEFAULT 'SwasthaSewa Hospital',
+
     problem_type VARCHAR(50) NOT NULL,
     problem_description TEXT,
 
@@ -44,9 +48,11 @@ $conn->query("CREATE TABLE IF NOT EXISTS appointments (
 
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-    INDEX (appointment_time),
-    INDEX (appointment_date),
-    INDEX (status),
+    -- Indexes for performance (important for crowd system)
+    INDEX idx_date (appointment_date),
+    INDEX idx_status (status),
+    INDEX idx_department (department),
+    INDEX idx_doctor (doctor_name),
 
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 )");
