@@ -49,8 +49,8 @@ if (isset($_SESSION['user_id'])) {
             SwasthaSewa
         </a>
         <nav class="nav-links">
-            <a href="#">Hospitals</a>
-            <a href="#">Clinics</a>
+            <a href="OnlyHospital.php">Hospitals</a>
+            <a href="OnlyClinic.php">Clinics</a>
             <a href="Book_Appointment.php">Book Appointment</a>
             <a href="ViewCrowd.php"> View Crowd Level</a>
         </nav>
