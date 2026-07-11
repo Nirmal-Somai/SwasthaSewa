@@ -49,9 +49,9 @@ if (isset($_SESSION['user_id'])) {
             SwasthaSewa
         </a>
         <nav class="nav-links">
-            <a href="OnlyHospital.php">Hospitals</a>
+            <a href="OnlyHospitals.php">Hospitals</a>
             <a href="OnlyClinic.php">Clinics</a>
-            <a href="Book_Appointment.php">Book Appointment</a>
+            <a href="AllHospital&Clinic.php">Book Appointment</a>
             <a href="ViewCrowd.php"> View Crowd Level</a>
         </nav>
 
@@ -94,13 +94,12 @@ if (isset($_SESSION['user_id'])) {
 
             <div class="tags-wrapper">
                 <button class="tag active">All</button>
-                <button class="tag" onclick="window.location.href='Book_Appointment.php'"><i class="fa-solid fa-heart-pulse"></i> Select Doctor</button>
-                <button class="tag"><i class="fa-regular fa-clock"></i> ENT</button>
+                <button class="tag" onclick="window.location.href='SelectDoctor.php'"><i class="fa-solid fa-heart-pulse"></i> Select Doctor</button>
+                <button class="tag" onclick="window.location.href='DrNirmal.php'"><i class="fa-regular fa-clock"></i> ENT</button>
                 <button class="tag"><i class="fa-solid fa-heart-pulse"></i> Cardiology</button>
                 <button class="tag"><i class="fa-solid fa-baby"></i> Pediatrics</button>
-                <button class="tag"><i class="fa-solid fa-brain"></i> Dental</button>
-                <button class="tag"><i class="fa-solid fa-brain"></i> Skin</button>
-                <button class="tag"><i class="fa-solid fa-brain"></i>Eye</button>
+                <button class="tag" onclick="window.location.href='DrAnish.php'"><i class="fa-solid fa-brain"></i> Dental</button>
+                <button class="tag" onclick="window.location.href='DrSujan.php'"><i class="fa-solid fa-brain"></i> Skin</button>
 
                 <button class="tag"><i class="fa-solid fa-brain"></i>Child</button>
             </div>

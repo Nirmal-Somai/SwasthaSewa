@@ -10,7 +10,7 @@ if (!isset($_SESSION['admin_id'])) {
 
 /* COUNTS */
 $users = 0;
-$admins = 0;
+
 $appointments = 0;
 
 /* USERS COUNT */
@@ -19,11 +19,7 @@ if ($result && $result->num_rows > 0) {
     $users = $conn->query("SELECT COUNT(*) as total FROM users")->fetch_assoc()['total'];
 }
 
-/* ADMINS COUNT */
-$result = $conn->query("SHOW TABLES LIKE 'admins'");
-if ($result && $result->num_rows > 0) {
-    $admins = $conn->query("SELECT COUNT(*) as total FROM admins")->fetch_assoc()['total'];
-}
+
 
 /* APPOINTMENTS COUNT */
 $result = $conn->query("SHOW TABLES LIKE 'appointments'");
@@ -239,10 +235,6 @@ body {
             <p><?php echo $users; ?></p>
         </div>
 
-        <div class="card">
-            <h3>Admins</h3>
-            <p><?php echo $admins; ?></p>
-        </div>
 
         <div class="card">
             <h3>Appointments</h3>
