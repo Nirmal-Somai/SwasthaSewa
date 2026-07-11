@@ -13,17 +13,63 @@ $user_id = $_SESSION['user_id'];
 // 1a. HANDLE CONFIRMATION ACTION
 if (isset($_GET['action']) && $_GET['action'] == 'confirm' && isset($_SESSION['pending_appointment'])) {
     $p = $_SESSION['pending_appointment'];
-    $stmt = $conn->prepare("INSERT INTO appointments (user_id, doctor_name, doctor_specialty, problem_type, appointment_date, appointment_time, appointment_type, status) VALUES (?, ?, ?, ?, ?, ?, ?, 'Pending')");
-    $stmt->bind_param("issssss", $user_id, $p['doctor_name'], $p['doctor_specialty'], $p['problem_type'], $p['appointment_date'], $p['appointment_time'], $p['appointment_type']);
-    
+
+    // Basic validation - make sure required fields actually made it into the session
+    $required = ['first_name', 'last_name', 'email', 'phone', 'doctor_name', 'doctor_specialty',
+                 'problem_type', 'appointment_date', 'appointment_time', 'appointment_type'];
+    foreach ($required as $field) {
+        if (empty($p[$field])) {
+            header("Location: Book_Appointment.php");
+            exit();
+        }
+    }
+
+    // NOTE: patient name/email/phone come from the form ($p), NOT from the users table -
+    // the person booking may be booking on behalf of someone else, so we must not
+    // overwrite what they typed with the logged-in account's own details.
+    $stmt = $conn->prepare("
+        INSERT INTO appointments (
+            user_id,
+            first_name,
+            last_name,
+            email,
+            phone,
+            doctor_name,
+            doctor_specialty,
+            problem_type,
+            appointment_date,
+            appointment_time,
+            appointment_type,
+            status
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Pending')
+    ");
+
+    $stmt->bind_param(
+        "issssssssss",
+        $user_id,
+        $p['first_name'],
+        $p['last_name'],
+        $p['email'],
+        $p['phone'],
+        $p['doctor_name'],
+        $p['doctor_specialty'],
+        $p['problem_type'],
+        $p['appointment_date'],
+        $p['appointment_time'],
+        $p['appointment_type']
+    );
+
     if ($stmt->execute()) {
         $appointment_id = $stmt->insert_id;
         $stmt->close();
-        unset($_SESSION['pending_appointment']); // Clear the session
+        unset($_SESSION['pending_appointment']);
         header("Location: user_receipt.php?id=$appointment_id&status=success");
         exit();
     }
+
+    // Insert failed — show a simple error instead of silently continuing
     $stmt->close();
+    die("Failed to save appointment. Please try again.");
 }
 
 $appointment_id = $_GET['id'] ?? null;
@@ -35,23 +81,28 @@ if (!$appointment_id) {
 
 // 2. FETCH APPOINTMENT DETAILS
 // We join with the users table to get the full name (security: only for the logged-in user)
-$stmt = $conn->prepare("SELECT a.*, u.first_name, u.last_name, u.email, u.phone 
-                        FROM appointments a 
-                        JOIN users u ON a.user_id = u.id 
-                        WHERE a.id = ? AND a.user_id = ?");
+
+$stmt = $conn->prepare("
+    SELECT * FROM appointments
+    WHERE id = ? AND user_id = ?
+");
 $stmt->bind_param("ii", $appointment_id, $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 
 if ($result->num_rows === 0) {
-    // Either appointment doesn't exist or it doesn't belong to this user
     header("Location: users_dashboard.php");
     exit();
 }
 
 $appt = $result->fetch_assoc();
 $stmt->close();
+
+$full_name = $appt['first_name'] . ' ' . $appt['last_name'];
+$phone = $appt['phone'];
+$email = $appt['email'];
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

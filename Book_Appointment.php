@@ -17,12 +17,15 @@ $slots = [
 $slot_counts = [];
 foreach ($slots as $slot) {
     $sql = "SELECT COUNT(*) as count FROM appointments 
-            WHERE appointment_time = '$slot'
+            WHERE appointment_time = ?
             AND status IN ('Pending','Confirmed')
             AND created_at > NOW() - INTERVAL 12 HOUR";
-    $result = $conn->query($sql);
-    $row = $result->fetch_assoc();
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $slot);
+    $stmt->execute();
+    $row = $stmt->get_result()->fetch_assoc();
     $slot_counts[$slot] = $row['count'];
+    $stmt->close();
 }
 
 
@@ -36,12 +39,13 @@ $user_id = $_SESSION['user_id'];
 $success_message = "";
 $error_message = "";
 
-// 2. FETCH USER DETAILS
+// 2. FETCH USER DETAILS (used only as a default the first time the form loads)
 $user_stmt = $conn->prepare("SELECT first_name, last_name, email, phone, gender FROM users WHERE id = ?");
 $user_stmt->bind_param("i", $user_id);
 $user_stmt->execute();
 $user_result = $user_stmt->get_result();
 $user_data = $user_result->fetch_assoc();
+$user_stmt->close();
 
 $first_name = $user_data['first_name'] ?? '';
 $last_name = $user_data['last_name'] ?? '';
@@ -50,16 +54,34 @@ $phone = $user_data['phone'] ?? '';
 $gender = $user_data['gender'] ?? '';
 
 // 3. PRE-POPULATE FROM SESSION (FOR EDITING)
-$p_doctor_name = $_SESSION['pending_appointment']['doctor_name'] ?? '';
-$p_doctor_specialty = $_SESSION['pending_appointment']['doctor_specialty'] ?? '';
-$p_problem_type = $_SESSION['pending_appointment']['problem_type'] ?? '';
-$p_appointment_date = $_SESSION['pending_appointment']['appointment_date'] ?? '';
-$p_appointment_time = $_SESSION['pending_appointment']['appointment_time'] ?? '';
-$p_appointment_type = $_SESSION['pending_appointment']['appointment_type'] ?? 'Normal';
+// If there's already a pending appointment in progress (e.g. user clicked "Edit"
+// from the confirm page), use THAT data first — it may be for a different patient
+// than the logged-in account. Only fall back to the account's own details when
+// there's nothing pending yet (first time loading the form).
+$pending = $_SESSION['pending_appointment'] ?? [];
 
-// 3. HANDLE FORM SUBMISSION
+$p_first_name       = $pending['first_name']       ?? $first_name;
+$p_last_name        = $pending['last_name']        ?? $last_name;
+$p_email            = $pending['email']            ?? $email;
+$p_phone            = $pending['phone']            ?? $phone;
+$p_doctor_name      = $pending['doctor_name']      ?? '';
+$p_doctor_specialty = $pending['doctor_specialty'] ?? '';
+$p_problem_type     = $pending['problem_type']     ?? '';
+$p_appointment_date = $pending['appointment_date'] ?? '';
+$p_appointment_time = $pending['appointment_time'] ?? '';
+$p_appointment_type = $pending['appointment_type'] ?? 'Normal';
+
+// 4. HANDLE FORM SUBMISSION
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $_SESSION['pending_appointment'] = [
+
+        // Patient Details (may be someone other than the logged-in account holder)
+        'first_name' => htmlspecialchars(trim($_POST['first_name'])),
+        'last_name'  => htmlspecialchars(trim($_POST['last_name'])),
+        'email'      => htmlspecialchars(trim($_POST['email'])),
+        'phone'      => htmlspecialchars(trim($_POST['phone'])),
+
+        // Appointment Details
         'doctor_name' => htmlspecialchars(trim($_POST['doctor_name'])),
         'doctor_specialty' => htmlspecialchars(trim($_POST['doctor_specialty'])),
         'problem_type' => htmlspecialchars(trim($_POST['problem_type'])),
@@ -68,13 +90,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         'appointment_type' => $_POST['appointment_type']
     ];
 
+    $first_name_check = $_SESSION['pending_appointment']['first_name'];
+    $last_name_check = $_SESSION['pending_appointment']['last_name'];
+    $email_check = $_SESSION['pending_appointment']['email'];
+    $phone_check = $_SESSION['pending_appointment']['phone'];
     $doctor_name = $_SESSION['pending_appointment']['doctor_name'];
     $appointment_date = $_SESSION['pending_appointment']['appointment_date'];
     $appointment_time = $_SESSION['pending_appointment']['appointment_time'];
     $problem_type = $_SESSION['pending_appointment']['problem_type'];
 
-    if (empty($doctor_name) || empty($appointment_date) || empty($appointment_time) || empty($problem_type)) {
+    if (empty($first_name_check) || empty($last_name_check) || empty($email_check) || empty($phone_check)
+        || empty($doctor_name) || empty($appointment_date) || empty($appointment_time) || empty($problem_type)) {
         $error_message = "Please fill all required fields.";
+        // Keep the form pre-filled with what was just submitted
+        $p_first_name       = $_SESSION['pending_appointment']['first_name'];
+        $p_last_name        = $_SESSION['pending_appointment']['last_name'];
+        $p_email            = $_SESSION['pending_appointment']['email'];
+        $p_phone            = $_SESSION['pending_appointment']['phone'];
+        $p_doctor_name      = $_SESSION['pending_appointment']['doctor_name'];
+        $p_doctor_specialty = $_SESSION['pending_appointment']['doctor_specialty'];
+        $p_problem_type     = $_SESSION['pending_appointment']['problem_type'];
+        $p_appointment_date = $_SESSION['pending_appointment']['appointment_date'];
+        $p_appointment_time = $_SESSION['pending_appointment']['appointment_time'];
+        $p_appointment_type = $_SESSION['pending_appointment']['appointment_type'];
     } else {
         header("Location: confirm_appointment.php");
         exit();
@@ -141,22 +179,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <form method="POST" action="Book_Appointment.php">
                     <div class="form-grid">
-                        <!-- Patient Details (Read Only) -->
+                        <!-- Patient Details (may be booked on behalf of someone else) -->
                         <div class="form-group">
                             <label>First Name</label>
-                            <input type="text" value="<?php echo $first_name; ?>" readonly>
+                            <input type="text" name="first_name"
+                           
+                            placeholder="Enter First Name"
+                            required
+                            pattern="[A-Za-z ]{2,50}"
+                            title="Only letters and spaces allowed">
                         </div>
                         <div class="form-group">
                             <label>Last Name</label>
-                            <input type="text" value="<?php echo $last_name; ?>" readonly>
+                            <input type="text" name="last_name"
+                            
+                            placeholder="Enter Last Name"
+                            required
+                            pattern="[A-Za-z ]{2,50}"
+                            title="Only letters and spaces allowed">
                         </div>
                         <div class="form-group">
                             <label>Email Address</label>
-                            <input type="email" value="<?php echo $email; ?>" readonly>
+                            <input type="email" name="email"
+                            
+                            placeholder="Enter Email Address"
+                            required>
                         </div>
                         <div class="form-group">
                             <label>Phone Number</label>
-                            <input type="text" value="<?php echo $phone; ?>" readonly>
+                            <input type="tel" name="phone"
+                            
+                            placeholder="Enter Phone Number"
+                            required
+                            pattern="[0-9]{10}"
+                            maxlength="10"
+                            title="Enter a valid 10-digit phone number">
                         </div>
 
                         <!-- Doctor Selection -->
@@ -172,7 +229,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="form-group">
                             <label>Specialty</label>
                             <input type="text" name="doctor_specialty" id="doctor_specialty" readonly
-                                value="<?php echo $p_doctor_specialty; ?>" placeholder="Auto-filled">
+                                value="<?php echo htmlspecialchars($p_doctor_specialty); ?>" placeholder="Auto-filled">
                         </div>
 
                         <!-- Problem Details -->
@@ -195,8 +252,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     // Disable slot if already 3 bookings
                                     $disabled = $slot_counts[$slot] >= 3 ? "disabled" : "";
                                     ?>
-                                    <option value="<?= $slot ?>" <?= $disabled ?> <?php echo ($p_appointment_time == $slot) ? 'selected' : ''; ?>>
-                                        <?= $slot ?> (
+                                    <option value="<?= htmlspecialchars($slot) ?>" <?= $disabled ?> <?php echo ($p_appointment_time == $slot) ? 'selected' : ''; ?>>
+                                        <?= htmlspecialchars($slot) ?> (
                                         <?= $slot_counts[$slot] ?>/3 booked)
                                     </option>
                                 <?php endforeach; ?>
@@ -205,7 +262,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="form-group">
                             <label>Appointment Date</label>
                             <input type="date" name="appointment_date" min="<?php echo date('Y-m-d'); ?>" required
-                                value="<?php echo $p_appointment_date; ?>" class="date-input">
+                                value="<?php echo htmlspecialchars($p_appointment_date); ?>" class="date-input">
                         </div>
 
                         <style>

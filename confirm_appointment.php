@@ -2,25 +2,15 @@
 session_start();
 include("db.php");
 
-// 1. MUST BE LOGGED IN AND HAVE PENDING APPOINTMENT
 if (!isset($_SESSION['user_id']) || !isset($_SESSION['pending_appointment'])) {
     header("Location: users_dashboard.php");
     exit();
 }
-
-$user_id = $_SESSION['user_id'];
 $appt = $_SESSION['pending_appointment'];
 
-// Fetch user details for display
-$user_stmt = $conn->prepare("SELECT first_name, last_name, email, phone FROM users WHERE id = ?");
-$user_stmt->bind_param("i", $user_id);
-$user_stmt->execute();
-$user_data = $user_stmt->get_result()->fetch_assoc();
-
-$full_name = ($user_data['first_name'] ?? '') . ' ' . ($user_data['last_name'] ?? '');
-$phone = $user_data['phone'] ?? '';
+$full_name = ($appt['first_name'] ?? '') . ' ' . ($appt['last_name'] ?? '');
+$phone = $appt['phone'] ?? '';
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -208,6 +198,7 @@ $phone = $user_data['phone'] ?? '';
                     <a href="Book_Appointment.php" class="btn-edit">
                         <i class="fa-solid fa-pen-to-square"></i> Edit
                     </a>
+                    
                     <a href="user_receipt.php?action=confirm" class="btn-confirm">
                         <i class="fa-solid fa-circle-check"></i> Confirm
                     </a>
